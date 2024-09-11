@@ -26,7 +26,9 @@ export class Sanitizer {
                         .replace(/--/g, "\\--")
                         .replace(/\\/g, "\\\\")
                         .replace(/\x00/g, "\\x00")
-                        .replace(/\x1a/g, "\\x1a");
+                        .replace(/\x1a/g, "\\x1a")
+                        .replace(/"/g, "\\\"")
+                        .replace(/%/g, "\\%");
     }
 
     private preventPHPInjection(): string {
@@ -39,7 +41,9 @@ export class Sanitizer {
                         .replace(/<\/script>/gi, "&lt;/script&gt;")
                         .replace(/javascript:/gi, "javascript&#58;")
                         .replace(/eval\(/gi, "eval&#40;")
-                        .replace(/new Function/gi, "new&#32;Function");
+                        .replace(/new Function/gi, "new&#32;Function")
+                        .replace(/alert\(/gi, "alert&#40;")
+                        .replace(/console\./gi, "console&#46;");
     }
 
     private preventPythonInjection(): string {
@@ -47,7 +51,8 @@ export class Sanitizer {
                         .replace(/exec\(/gi, "exec&#40;")
                         .replace(/eval\(/gi, "eval&#40;")
                         .replace(/os\./gi, "os&#46;")
-                        .replace(/sys\./gi, "sys&#46;");
+                        .replace(/sys\./gi, "sys&#46;")
+                        .replace(/subprocess\./gi, "subprocess&#46;");
     }
 
     private preventVBInjection(): string {
@@ -67,12 +72,14 @@ export class Sanitizer {
                         .replace(/>/g, "\\>")
                         .replace(/</g, "\\<")
                         .replace(/\*/g, "\\*")
-                        .replace(/\?/g, "\\?");
+                        .replace(/\?/g, "\\?")
+                        .replace(/!/g, "\\!")
+                        .replace(/~/g, "\\~");
     }
 
     public sanitize(): string {
-        this.data = this.escapeHTML();
         this.data = this.trim();
+        this.data = this.escapeHTML();
         this.data = this.preventSQLInjection();
         this.data = this.preventPHPInjection();
         this.data = this.preventJSInjection();
