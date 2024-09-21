@@ -1,6 +1,6 @@
-import { Complex } from './Complex';
-import { FFT } from './FFT';
-import { AudioData, StereoAudioData } from './AudioDataInterfaces';
+import { Complex } from '../Complex';
+import { FFT } from '../FFT';
+import { AudioData, StereoAudioData } from '../AudioDataInterfaces';
 
 export enum NoiseReductionMethod {
   Amplitude,
